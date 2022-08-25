@@ -82,12 +82,12 @@ main {
 #shop-items {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 20px;
 }
 
 .shop-item {
-  width: 270px;
+  width: calc(25% - 17px);
   border-radius: 4px;
   overflow: hidden;
   display: flex;
@@ -100,7 +100,7 @@ main {
   padding: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   align-items: flex-start;
   flex-grow: 1;
 }
@@ -127,6 +127,8 @@ main {
   font-weight: 500;
   border-radius: 4px;
   cursor: pointer;
+  display: block;
+  margin-top: auto;
 }
 
 .shop-item .tags {
