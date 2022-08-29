@@ -80,7 +80,7 @@ const items = [
     title: "Поводок для собак",
     description: "Для чудесных прогулок вместе",
     tags: ["dog"],
-    price: 800,
+    price: 820,
     img: "./img/12.jpeg",
   },
 ];
