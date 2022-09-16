@@ -89,20 +89,36 @@ const cardTemplate = document.querySelector('#item-template');
 const shopItems = document.querySelector('#shop-items');
 
 
-
 function makeItemCard(object) {
-  for (let i = 0; i < object.length; i++) {
-    for (let item of object) {
-      const myCard = cardTemplate.content.cloneNode(true);
-      myCard.querySelector('h1').textContent = item.title;
-      myCard.querySelector('p').textContent = item.description;
-      myCard.querySelector('img').src = item.img;
-      myCard.querySelector('.price').textContent = `${item.price}P`;
-      myCard.querySelector('.tags').textContent = item.tags;
-      shopItems.append(myCard);
-    }
-    return myCard;  
+  const { title, description, tags, price, img } = object;
+
+  const itemCard = cardTemplate.content.cloneNode(true);
+  itemCard.querySelector('h1').textContent = title;
+  itemCard.querySelector('p').textContent = description;
+  itemCard.querySelector('img').src = img;
+  itemCard.querySelector('.price').textContent = `${price}P`;
+
+
+  const tagsPet = itemCard.querySelector('.tags');
+
+  tags.forEach((tag) => {
+    console.log(tag);
+    const element = document.createElement('span');
+    console.log(element);
+    element.textContent = tag;
+    element.classList.add('tag');
+    tagsPet.append(element);
+  });
+
+  return itemCard;
+};
+
+
+function renderItems(arr) {
+  for (let item of arr) {
+    shopItems.append(makeItemCard(item));
   }
 };
 
-makeItemCard(items);
+renderItems(items);
+
