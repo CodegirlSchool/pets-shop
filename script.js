@@ -89,16 +89,34 @@ const containerShop = document.querySelector('#shop-items');
 
 const CardTemplate =  document.querySelector('#item-template');
 
-function weUsTemplate (title, description,img,price,tags) {
+const ProductFound = document.querySelector('#nothing-found');
+
+
+function weUsTemplateCard(itemsShop) {
+
+  const { title, description, tags, price, img } = itemsShop;/*декструктурируем, и в результате получаем переменные со значением свойств items*/ 
+  console.log(title, description, tags, price, img);
+
   const shopCard = CardTemplate.content.cloneNode(true);
   shopCard.querySelector('h1').textContent = title;
   shopCard.querySelector('p').textContent = description;
   shopCard.querySelector('img').src = img;
-  shopCard.querySelector('price').textContent = price;
-  shopCard.querySelector('tags').textContent = tags;
+  shopCard.querySelector('.price').textContent = `${price} Руб.`;
+
+  const tagsCard = shopCard.querySelector('.tags');
+  tags.forEach((itemTag) => {
+    const tagsElement = document.createElement('span');
+    tagsElement.textContent = itemTag;
+    tagsElement.classList.add('tags');
+
+    tagsCard.append(tagsElement);
+  })
+
   return shopCard;
 }
 
-const testCard =  weUsTemplate (title, description,img,price,tags);
-
-containerShop.append (testCard);
+items.forEach(item => {
+  const itemsShop = item;
+  const shopCard = weUsTemplateCard(itemsShop);
+  containerShop.append(shopCard);
+});
