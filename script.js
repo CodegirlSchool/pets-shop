@@ -84,3 +84,21 @@ const items = [
     img: "./img/12.jpeg",
   },
 ];
+
+const containerShop = document.querySelector('#shop-items');
+
+const CardTemplate =  document.querySelector('#item-template');
+
+function weUsTemplate (title, description,img,price,tags) {
+  const shopCard = CardTemplate.content.cloneNode(true);
+  shopCard.querySelector('h1').textContent = title;
+  shopCard.querySelector('p').textContent = description;
+  shopCard.querySelector('img').src = img;
+  shopCard.querySelector('price').textContent = price;
+  shopCard.querySelector('tags').textContent = tags;
+  return shopCard;
+}
+
+const testCard =  weUsTemplate (title, description,img,price,tags);
+
+containerShop.append (testCard);
