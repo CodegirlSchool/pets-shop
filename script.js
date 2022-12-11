@@ -89,13 +89,15 @@ const containerShop = document.querySelector('#shop-items');
 
 const CardTemplate =  document.querySelector('#item-template');
 
-const ProductFound = document.querySelector('#nothing-found');
+const productFound = document.querySelector('#nothing-found');
+
+productFound.textContent = 'Ничего не найдено';
 
 
 function weUsTemplateCard(itemsShop) {
 
   const { title, description, tags, price, img } = itemsShop;/*декструктурируем, и в результате получаем переменные со значением свойств items*/ 
-  console.log(title, description, tags, price, img);
+  
 
   const shopCard = CardTemplate.content.cloneNode(true);
   shopCard.querySelector('h1').textContent = title;
@@ -113,10 +115,30 @@ function weUsTemplateCard(itemsShop) {
   })
 
   return shopCard;
-}
+};
 
 items.forEach(item => {
   const itemsShop = item;
   const shopCard = weUsTemplateCard(itemsShop);
   containerShop.append(shopCard);
 });
+
+/*Добавление Поиска на сайт*/ 
+const searchInput = document.querySelector('#search-input');
+const searchButton = document.querySelector('#search-btn');
+
+function productSeachWhenClicked() {
+ const seachInputValue = searchInput.value.toLowerCase().trim();
+ const resultFilter = items.filter((item) => 
+  item.title.toLowerCase().trim().includes(seachInputValue)
+)
+  if (!resultFilter.length) {
+    containerShop.append(productFound);
+  } else {
+    resultFilter.forEach((item) => 
+    containerShop.append(weUsTemplateCard(item)));
+  }
+};
+
+searchButton.addEventListener('click',productSeachWhenClicked);
+
