@@ -116,8 +116,8 @@ searchBtn.addEventListener('click', function() {
   newText.classList.add('text');
   newText.textContent = searchText;
 
-  if (title.includes(newText)) {
+  /*if (title.includes(newText)) {
       return items['title'];
-  }
+  }*/
 
 });
