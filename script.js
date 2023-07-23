@@ -1,10 +1,27 @@
+const itemTemplate = document.querySelector('#item-template');
+const shopItems = document.querySelector('#shop-items');
+const searchBtn = document.querySelector('#search-btn');
+const searchInput = document.querySelector('#search-input');
+const textContainer = document.querySelector('.texts');
+
+function makeCardByTemplate(title, description, tags, price, img) {
+  const myCard = itemTemplate.content.cloneNode(true);
+  myCard.querySelector('h1').textContent = title;
+  myCard.querySelector('p').textContent = description;
+  myCard.querySelector('.tags').textContent = tags;
+  myCard.querySelector('.price').textContent = price;
+  myCard.querySelector('img').src = img;
+  return myCard;
+}
+
+
 const items = [
   {
     title: "Игрушка мячик",
     description: "Ваш питомец будет счастлив!",
     tags: ["cat", "dog"],
     price: 500,
-    img: "./img/1.jpeg",
+    img: ".img/1.jpeg",
   },
   {
     title: "Игрушка лабиринт",
@@ -84,3 +101,23 @@ const items = [
     img: "./img/12.jpeg",
   },
 ];
+
+items.forEach (function (item) {
+  const Card = makeCardByTemplate (`${item.title}, ${item.description}, ${item.tags}, ${item.price}, ${item.img}`);
+shopItems.append(Card);
+});
+
+//в консоль выводится ошибка: file is undefined, я так понимаю, речь о папке img?
+
+searchBtn.addEventListener('click', function() {
+  const searchText = searchInput.value;
+
+  const newText = document.createElement('div');
+  newText.classList.add('text');
+  newText.textContent = searchText;
+
+  if (title.includes(newText)) {
+      return items['title'];
+  }
+
+});
