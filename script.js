@@ -242,4 +242,3 @@ sortControl.addEventListener("change", (event) => {
   // Массив упорядочили — осталось его отрисовать
   renderItems(currentState);
 });
-//*
