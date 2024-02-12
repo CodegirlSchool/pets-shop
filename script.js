@@ -85,9 +85,17 @@ const items = [{
 ];
 
 const shopItems = document.querySelector('#shop-items');
+const searchInput = document.getElementById('search-input');
+const nothingFound = document.getElementById('nothing-found');
 
 function makeProductCard(product) {
-const { title, description, tags, price, img } = product;
+const {
+  title,
+  description,
+  tags,
+  price,
+  img
+} = product;
 const itemTemplate = document.querySelector('#item-template');
 const productCard = itemTemplate.content.cloneNode(true);
 
@@ -108,9 +116,31 @@ return productCard;
 }
 
 function renderItems(arr) {
+shopItems.innerHTML = ''; // Clear previous items
+nothingFound.textContent = ''; // Clear previous "nothing found" message
 arr.forEach((product) => {
   shopItems.append(makeProductCard(product));
 });
 }
 
-renderItems(items); 
+function searchItems(keyword) {
+const searchTerm = keyword.toLowerCase();
+const filteredItems = items.filter(item =>
+  item.title.toLowerCase().includes(searchTerm) ||
+  item.description.toLowerCase().includes(searchTerm) ||
+  item.tags.some(tag => tag.toLowerCase() === searchTerm)
+);
+
+if (filteredItems.length > 0) {
+  renderItems(filteredItems);
+} else {
+  nothingFound.textContent = 'Ничего не найдено';
+}
+}
+
+searchInput.addEventListener('keydown', (event) => {
+if (event.key === 'Enter') {
+  const searchKeyword = searchInput.value.trim();
+  searchItems(searchKeyword);
+}
+});
