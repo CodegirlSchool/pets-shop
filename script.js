@@ -116,8 +116,8 @@ return productCard;
 }
 
 function renderItems(arr) {
-shopItems.innerHTML = ''; // Clear previous items
-nothingFound.textContent = ''; // Clear previous "nothing found" message
+shopItems.innerHTML = ''; 
+nothingFound.textContent = ''; 
 arr.forEach((product) => {
   shopItems.append(makeProductCard(product));
 });
