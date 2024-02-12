@@ -154,3 +154,4 @@ sortSelect.addEventListener('change', () => {
   const sortBy = sortSelect.value;
   sortItems(sortBy);
 });
+renderItems(items);
