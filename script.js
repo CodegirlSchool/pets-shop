@@ -88,6 +88,8 @@ const shopItems = document.querySelector('#shop-items');
 const searchInput = document.getElementById('search-input');
 const nothingFound = document.getElementById('nothing-found');
 const sortSelect = document.getElementById('sort-select');
+const priceFilterMin = document.getElementById('price-filter-min');
+const priceFilterMax = document.getElementById('price-filter-max');
 
 function makeProductCard(product) {
   const { title, description, tags, price, img } = product;
@@ -139,8 +141,19 @@ function sortItems(sortBy) {
       sortedItems = items.slice().sort((a, b) => a.price - b.price);
   } else if (sortBy === 'priceDesc') {
       sortedItems = items.slice().sort((a, b) => b.price - a.price);
+  } else if (sortBy === 'alphaAsc') {
+      sortedItems = items.slice().sort((a, b) => a.title.localeCompare(b.title));
+  } else if (sortBy === 'alphaDesc') {
+      sortedItems = items.slice().sort((a, b) => b.title.localeCompare(a.title));
   }
   renderItems(sortedItems);
+}
+
+function filterItemsByPrice(minPrice, maxPrice) {
+  const filteredItems = items.filter(item =>
+    item.price >= minPrice && item.price <= maxPrice
+  );
+  renderItems(filteredItems);
 }
 
 searchInput.addEventListener('keydown', (event) => {
@@ -153,5 +166,17 @@ searchInput.addEventListener('keydown', (event) => {
 sortSelect.addEventListener('change', () => {
   const sortBy = sortSelect.value;
   sortItems(sortBy);
+});
+
+priceFilterMin.addEventListener('change', () => {
+  const minPrice = parseFloat(priceFilterMin.value);
+  const maxPrice = parseFloat(priceFilterMax.value);
+  filterItemsByPrice(minPrice, maxPrice);
+});
+
+priceFilterMax.addEventListener('change', () => {
+  const minPrice = parseFloat(priceFilterMin.value);
+  const maxPrice = parseFloat(priceFilterMax.value);
+  filterItemsByPrice(minPrice, maxPrice);
 });
 renderItems(items);

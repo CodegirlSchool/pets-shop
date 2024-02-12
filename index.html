@@ -26,14 +26,24 @@
         <li>
           <div class="site-search">
             <input type="search" id="search-input">
-            <button type="button" id="search-btn" class="fa fa-search"></i>
+            <button type="button" id="search-btn" class="fa fa-search"></button> <!-- Закрывающий тег кнопки -->
           </div>
         </li>
         <li>
           <select id="sort-select">
             <option value="priceAsc">По цене (возрастание)</option>
             <option value="priceDesc">По цене (убывание)</option>
+            <option value="alphaAsc">По названию (A-Z)</option> <!-- Добавлено значение для сортировки по алфавиту -->
+            <option value="alphaDesc">По названию (Z-A)</option> <!-- Добавлено значение для сортировки по алфавиту -->
           </select>
+        </li>
+        <li> <!-- Новый элемент для фильтрации по цене -->
+          <label for="price-filter-min">Мин. цена:</label>
+          <input type="number" id="price-filter-min" min="0">
+        </li>
+        <li> <!-- Новый элемент для фильтрации по цене -->
+          <label for="price-filter-max">Макс. цена:</label>
+          <input type="number" id="price-filter-max" min="0">
         </li>
       </ul>
     </nav>
