@@ -156,11 +156,9 @@ function filterItemsByPrice(minPrice, maxPrice) {
   renderItems(filteredItems);
 }
 
-searchInput.addEventListener('keydown', (event) => {
-  if (event.key === 'Enter') {
-      const searchKeyword = searchInput.value.trim();
-      searchItems(searchKeyword);
-  }
+searchInput.addEventListener('input', () => {
+  const searchKeyword = searchInput.value.trim();
+  searchItems(searchKeyword);
 });
 
 sortSelect.addEventListener('change', () => {
