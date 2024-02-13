@@ -4,6 +4,7 @@ const items = [{
   tags: ["cat", "dog"],
   price: 500,
   img: "./img/1.jpeg",
+  rating: 4,
 },
 {
   title: "Игрушка лабиринт",
@@ -11,6 +12,7 @@ const items = [{
   tags: ["cat", "dog"],
   price: 900,
   img: "./img/2.jpeg",
+  rating: 5,
 },
 {
   title: "Игрушка для котят",
@@ -18,6 +20,7 @@ const items = [{
   tags: ["cat"],
   price: 300,
   img: "./img/3.jpeg",
+  rating: 4.3,
 },
 {
   title: "Миска «Котик»",
@@ -25,6 +28,7 @@ const items = [{
   tags: ["cat", "dog"],
   price: 660,
   img: "./img/4.jpeg",
+  rating: 4,
 },
 {
   title: "Лоток розовый",
@@ -32,6 +36,7 @@ const items = [{
   tags: ["cat"],
   price: 400,
   img: "./img/5.jpeg",
+  rating: 5,
 },
 {
   title: "Сухой корм для кошек",
@@ -39,6 +44,7 @@ const items = [{
   tags: ["cat"],
   price: 200,
   img: "./img/6.jpeg",
+  rating: 4,
 },
 {
   title: "Сухой корм для собак",
@@ -46,6 +52,7 @@ const items = [{
   tags: ["dog"],
   price: 300,
   img: "./img/7.jpeg",
+  rating: 4,
 },
 {
   title: "Игрушка для собак",
@@ -53,6 +60,7 @@ const items = [{
   tags: ["dog"],
   price: 500,
   img: "./img/8.jpeg",
+  rating: 1,
 },
 {
   title: "Лежанка",
@@ -60,6 +68,7 @@ const items = [{
   tags: ["cat", "dog"],
   price: 1500,
   img: "./img/9.jpeg",
+  rating: 2,
 },
 {
   title: "Поилка для собак",
@@ -67,6 +76,7 @@ const items = [{
   tags: ["dog"],
   price: 800,
   img: "./img/10.jpeg",
+  rating: 5,
 },
 {
   title: "Переноска",
@@ -74,6 +84,7 @@ const items = [{
   tags: ["cat", "dog"],
   price: 3500,
   img: "./img/11.jpeg",
+  rating: 3,
 },
 {
   title: "Поводок для собак",
@@ -81,100 +92,100 @@ const items = [{
   tags: ["dog"],
   price: 800,
   img: "./img/12.jpeg",
+  rating: 4,
 },
 ];
 
-const shopItems = document.querySelector('#shop-items');
-const searchInput = document.getElementById('search-input');
+const itemsContainer = document.querySelector("#shop-items");
+const intemsTemplate = document.querySelector("#item-template");
 const nothingFound = document.getElementById('nothing-found');
-const sortSelect = document.getElementById('sort-select');
-const priceFilterMin = document.getElementById('price-filter-min');
-const priceFilterMax = document.getElementById('price-filter-max');
 
-function makeProductCard(product) {
-  const { title, description, tags, price, img } = product;
-  const itemTemplate = document.querySelector('#item-template');
-  const productCard = itemTemplate.content.cloneNode(true);
+function prepareShopItem (shopItem) {
+const { title, description, tags, img, price, rating} = shopItem;
 
-  productCard.querySelector('h1').textContent = title;
-  productCard.querySelector('p').textContent = description;
-  productCard.querySelector('.price').textContent = `${price}Р`;
-  productCard.querySelector('img').src = img;
+const item = itemTemplate. content. cloneNode (true) ;
 
-  const tagsContainer = productCard.querySelector('.tags');
-  tags.forEach((tag) => {
-      const tagsItem = document.createElement('span');
-      tagsItem.textContent = tag;
-      tagsItem.classList.add('tag');
-      tagsContainer.append(tagsItem);
-  });
+item. querySelector ("h1"). textContent = title;
+item. querySelector ("p"). textContent = description;
+item. querySelector ("img").src = img;
+item. querySelector(".price"). textContent = `${price}P`;
 
-  return productCard;
+const ratingContainer = item. querySelector(".rating");
+for (let i = 0; i < rating; i++) {
+const star = document. createElement ("i");
+star.classList.addl("fa", "* fa-star");
+ratingContainer.append (star);
 }
+const tagsHolder = item. querySelector(".tags");
+tags.forEach ( (tag) => {
+  const element = document. createElement ("span");
+  element. textContent = tag;
+  element.classList.add("tag"); 
+  tagsHolder.append (element);
+});
 
-function renderItems(arr) {
-  shopItems.innerHTML = ''; 
-  nothingFound.textContent = ''; 
-  arr.forEach((product) => {
-      shopItems.appendChild(makeProductCard(product));
-  });
+  return item;
 }
+let currentState=[...items];
+function renderItems (arr) {
 
-function searchItems(keyword) {
-  const searchTerm = keyword.toLowerCase();
-  const filteredItems = items.filter(item =>
-      item.title.toLowerCase().includes(searchTerm) ||
-      item.description.toLowerCase().includes(searchTerm) ||
-      item.tags.some(tag => tag.toLowerCase() === searchTerm)
-  );
+nothingFound. textContent = "";
+itemsContainer. innerHTML = "";
 
-  if (filteredItems.length > 0) {
-      renderItems(filteredItems);
-  } else {
-      nothingFound.textContent = 'Ничего не найдено';
+arr. forEach ( (item) => {
+itemsContainer.append (prepareShopItem(item));
+});
+if (!arr.length) {
+nothingFound. textContent = "Ничего не найдено";
+}
+}
+renderItems (currentState);
+function sortByAlphabet (a, b) {
+  if (a.title > b.title) {
+  return 1;
   }
-}
-
-function sortItems(sortBy) {
-  let sortedItems;
-  if (sortBy === 'priceAsc') {
-      sortedItems = items.slice().sort((a, b) => a.price - b.price);
-  } else if (sortBy === 'priceDesc') {
-      sortedItems = items.slice().sort((a, b) => b.price - a.price);
-  } else if (sortBy === 'alphaAsc') {
-      sortedItems = items.slice().sort((a, b) => a.title.localeCompare(b.title));
-  } else if (sortBy === 'alphaDesc') {
-      sortedItems = items.slice().sort((a, b) => b.title.localeCompare(a.title));
+  if (a.title < b.title) {
+     return -1;
   }
-  renderItems(sortedItems);
+  return 0;
 }
+renderItems (currentState. sort ((a, b) = sortByAlphabet (a, b))) ;
 
-function filterItemsByPrice(minPrice, maxPrice) {
-  const filteredItems = items.filter(item =>
-    item.price >= minPrice && item.price <= maxPrice
-  );
-  renderItems(filteredItems);
+const sortControl = document. querySelector("#sort");
+
+sortControlo.addEventListener ("change", (event) => {
+const selectedOption = event.target.value;
+switch (selectedOption) {
+case "expensive": {
+currentState.sort((a, b) => b.price - a.price);
+break;
 }
-
-searchInput.addEventListener('input', () => {
-  const searchKeyword = searchInput.value.trim();
-  searchItems(searchKeyword);
+case "cheap": {
+currentState.sort( (a, b) => a.price - b.price);
+break;
+}
+case "rating": {
+currentState.sort( (a, b) => b. rating - a. rating);
+break;
+}
+case "alphabet": {
+currentState,sort( (a, b) => sortByAlphabet(a, b));
+break;
+}
+}
+renderItems (currentState);
 });
 
-sortSelect.addEventListener('change', () => {
-  const sortBy = sortSelect.value;
-  sortItems(sortBy);
-});
+const searchInput = document. querySelector ("#search-input");
+const searchButton = document. querySelector ("#search-btn");
+function applySearch() {
+const searchString = searchInput.value.trim(). toLowerCase();
+currentState = items. filter((el) =>
+el. title.toLowerCase( ).includes (searchString) );
+currentState.sort((a, b) = sortByAlphabet (a, b));
+sortControl.selectedIndex = 0;
+renderItems (currentState);
+};
+searchButton.addEventListener ("click", applySearch);
 
-priceFilterMin.addEventListener('change', () => {
-  const minPrice = parseFloat(priceFilterMin.value);
-  const maxPrice = parseFloat(priceFilterMax.value);
-  filterItemsByPrice(minPrice, maxPrice);
-});
-
-priceFilterMax.addEventListener('change', () => {
-  const minPrice = parseFloat(priceFilterMin.value);
-  const maxPrice = parseFloat(priceFilterMax.value);
-  filterItemsByPrice(minPrice, maxPrice);
-});
-renderItems(items);
+searchInput.addEventListener("search", applySearch);
