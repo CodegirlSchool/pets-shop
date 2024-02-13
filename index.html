@@ -9,6 +9,20 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Магазин товаров для животных «Лапка»</title>
+  <script>
+    // Проверяем, что файлы стилей и скрипта загружены
+    window.onload = function() {
+      var stylesLoaded = document.styleSheets.length > 0;
+      var scriptLoaded = document.querySelector('script[src="script.js"]') !== null;
+
+      if (!stylesLoaded) {
+        console.error("Ошибка: Файл стилей не загружен.");
+      }
+      if (!scriptLoaded) {
+        console.error("Ошибка: Файл скрипта не загружен.");
+      }
+    }
+  </script>
 </head>
 <body>
   <header>
@@ -30,7 +44,7 @@
           </div>
         </li>
         <li>
-          <select name = "sort" id="sort">
+          <select name="sort" id="sort">
             <option value="alphabet">По алфавиту</option>
             <option value="expensive">Сначала дорогие</option>
             <option value="cheap">Сначала дешевые</option> 
