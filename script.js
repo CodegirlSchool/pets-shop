@@ -194,4 +194,4 @@ renderItems(currentState);
 }
 
 searchButton.addEventListener("click", applySearch);
-searchInput.addEventListener("search", applySearch);
+searchInput.addEventListener("input", applySearch);
