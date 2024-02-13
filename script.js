@@ -97,95 +97,101 @@ const items = [{
 ];
 
 const itemsContainer = document.querySelector("#shop-items");
-const intemsTemplate = document.querySelector("#item-template");
+const itemsTemplate = document.querySelector("#item-template");
 const nothingFound = document.getElementById('nothing-found');
 
-function prepareShopItem (shopItem) {
-const { title, description, tags, img, price, rating} = shopItem;
+function prepareShopItem(shopItem) {
+const { title, description, tags, img, price, rating } = shopItem;
 
-const item = itemTemplate. content. cloneNode (true) ;
+const item = itemsTemplate.content.cloneNode(true);
 
-item. querySelector ("h1"). textContent = title;
-item. querySelector ("p"). textContent = description;
-item. querySelector ("img").src = img;
-item. querySelector(".price"). textContent = `${price}P`;
+item.querySelector("h1").textContent = title;
+item.querySelector("p").textContent = description;
+item.querySelector("img").src = img;
+item.querySelector(".price").textContent = `${price}P`;
 
-const ratingContainer = item. querySelector(".rating");
+const ratingContainer = item.querySelector(".ratings");
 for (let i = 0; i < rating; i++) {
-const star = document. createElement ("i");
-star.classList.addl("fa", "* fa-star");
-ratingContainer.append (star);
+  const star = document.createElement("i");
+  star.classList.add("fa", "fa-star");
+  ratingContainer.append(star);
 }
-const tagsHolder = item. querySelector(".tags");
-tags.forEach ( (tag) => {
-  const element = document. createElement ("span");
-  element. textContent = tag;
-  element.classList.add("tag"); 
-  tagsHolder.append (element);
+
+const tagsHolder = item.querySelector(".tags");
+tags.forEach((tag) => {
+  const element = document.createElement("span");
+  element.textContent = tag;
+  element.classList.add("tag");
+  tagsHolder.append(element);
 });
 
-  return item;
+return item;
 }
-let currentState=[...items];
-function renderItems (arr) {
 
-nothingFound. textContent = "";
-itemsContainer. innerHTML = "";
+let currentState = [...items];
 
-arr. forEach ( (item) => {
-itemsContainer.append (prepareShopItem(item));
+function renderItems(arr) {
+nothingFound.textContent = "";
+itemsContainer.innerHTML = "";
+
+arr.forEach((item) => {
+  itemsContainer.append(prepareShopItem(item));
 });
+
 if (!arr.length) {
-nothingFound. textContent = "Ничего не найдено";
+  nothingFound.textContent = "Ничего не найдено";
 }
 }
-renderItems (currentState);
-function sortByAlphabet (a, b) {
-  if (a.title > b.title) {
+
+renderItems(currentState);
+
+function sortByAlphabet(a, b) {
+if (a.title > b.title) {
   return 1;
-  }
-  if (a.title < b.title) {
-     return -1;
-  }
-  return 0;
 }
-renderItems (currentState. sort ((a, b) = sortByAlphabet (a, b))) ;
+if (a.title < b.title) {
+  return -1;
+}
+return 0;
+}
 
-const sortControl = document. querySelector("#sort");
+const sortControl = document.querySelector("#sort");
 
-sortControlo.addEventListener ("change", (event) => {
+sortControl.addEventListener("change", (event) => {
 const selectedOption = event.target.value;
 switch (selectedOption) {
-case "expensive": {
-currentState.sort((a, b) => b.price - a.price);
-break;
+  case "expensive": {
+    currentState.sort((a, b) => b.price - a.price);
+    break;
+  }
+  case "cheap": {
+    currentState.sort((a, b) => a.price - b.price);
+    break;
+  }
+  case "rating": {
+    currentState.sort((a, b) => b.rating - a.rating);
+    break;
+  }
+  case "alphabet": {
+    currentState.sort((a, b) => sortByAlphabet(a, b));
+    break;
+  }
 }
-case "cheap": {
-currentState.sort( (a, b) => a.price - b.price);
-break;
-}
-case "rating": {
-currentState.sort( (a, b) => b. rating - a. rating);
-break;
-}
-case "alphabet": {
-currentState,sort( (a, b) => sortByAlphabet(a, b));
-break;
-}
-}
-renderItems (currentState);
+renderItems(currentState);
 });
 
-const searchInput = document. querySelector ("#search-input");
-const searchButton = document. querySelector ("#search-btn");
-function applySearch() {
-const searchString = searchInput.value.trim(). toLowerCase();
-currentState = items. filter((el) =>
-el. title.toLowerCase( ).includes (searchString) );
-currentState.sort((a, b) = sortByAlphabet (a, b));
-sortControl.selectedIndex = 0;
-renderItems (currentState);
-};
-searchButton.addEventListener ("click", applySearch);
+const searchInput = document.querySelector("#search-input");
+const searchButton = document.querySelector("#search-btn");
 
+function applySearch() {
+const searchString = searchInput.value.trim().toLowerCase();
+currentState = items.filter((el) =>
+  el.title.toLowerCase().includes(searchString)
+);
+currentState.sort((a, b) => sortByAlphabet(a, b));
+sortControl.selectedIndex = 0;
+renderItems(currentState);
+}
+
+searchButton.addEventListener("click", applySearch);
 searchInput.addEventListener("search", applySearch);
