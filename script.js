@@ -161,20 +161,20 @@ sortControl.addEventListener("change", (event) => {
 const selectedOption = event.target.value;
 switch (selectedOption) {
   case "expensive": {
-    currentState.sort((a, b) => b.price - a.price);
-    break;
+      currentState.sort((a, b) => b.price - a.price);
+      break;
   }
   case "cheap": {
-    currentState.sort((a, b) => a.price - b.price);
-    break;
+      currentState.sort((a, b) => a.price - b.price);
+      break;
   }
   case "rating": {
-    currentState.sort((a, b) => b.rating - a.rating);
-    break;
+      currentState.sort((a, b) => b.rating - a.rating);
+      break;
   }
   case "alphabet": {
-    currentState.sort((a, b) => sortByAlphabet(a, b));
-    break;
+      currentState.sort((a, b) => sortByAlphabet(a, b));
+      break;
   }
 }
 renderItems(currentState);
@@ -195,4 +195,3 @@ renderItems(currentState);
 
 searchButton.addEventListener("click", applySearch);
 searchInput.addEventListener("search", applySearch);
-renderItems(currentState);
