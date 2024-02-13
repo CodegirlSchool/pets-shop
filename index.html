@@ -26,8 +26,16 @@
         <li>
           <div class="site-search">
             <input type="search" id="search-input">
-            <button type="button" id="search-btn" class="fa fa-search"></i>
+            <button type="button" id="search-btn" class="fa fa-search"></button> 
           </div>
+        </li>
+        <li>
+          <select name="sort" id="sort">
+            <option value="alphabet">По алфавиту</option>
+            <option value="expensive">Сначала дорогие</option>
+            <option value="cheap">Сначала дешевые</option> 
+            <option value="rating">Рейтинг</option> 
+          </select>
         </li>
       </ul>
     </nav>
@@ -48,6 +56,7 @@
         <h1></h1>
         <p></p>
         <span class="price"></span>
+        <div class="ratings"></div> 
       </div>
     </div>
   </template>
