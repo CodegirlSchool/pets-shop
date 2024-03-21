@@ -84,11 +84,12 @@ const items = [{
     },
 ];
 
+
 const itemsContainer = document.getElementById("shop-items");
 const template = document.getElementById("item-template");
 
 function prepareShopItem(shopItem) {
-    const { title, description, tags, price, img } = shopItem
+    const { title, description, tags, price, img } = shopItem;
 
     const item = template.content.cloneNode(true);
 
@@ -109,7 +110,6 @@ function prepareShopItem(shopItem) {
     return item;
 }
 
-let currentState = [...items];
 
 function renderItems(arr) {
     itemsContainer.innerHTML = "";
@@ -118,4 +118,4 @@ function renderItems(arr) {
     });
 }
 
-renderItems(currentState);
+renderItems(items);
