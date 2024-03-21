@@ -111,10 +111,10 @@ function makeProductByTemplate(item) {
     const { title, description, tags, price, img, rating } = item;
 
     // наполнение информацией из объекта
-    cardProductTemplate.querySelector("h1").textContent = item.title; //поиск и запись в контент карточки
-    cardProductTemplate.querySelector("p").textContent = item.description;
-    cardProductTemplate.querySelector("img").src = item.img;
-    cardProductTemplate.querySelector("span").textContent = `${item.price}Р`;
+    cardProductTemplate.querySelector("h1").textContent = title; //поиск и запись в контент карточки
+    cardProductTemplate.querySelector("p").textContent = description;
+    cardProductTemplate.querySelector("img").src = img;
+    cardProductTemplate.querySelector("span").textContent = `${price}Р`;
 
     //создание рейтинга товара
     for (let i = 0; i < rating; i++) { // для создания звездочек
