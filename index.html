@@ -1,41 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Магазин товаров для животных «Лапка»</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Магазин товаров для животных «Лапка»</title>
 </head>
+
 <body>
-  <header>
-    <nav>
-      <ul class="container nav">
-        <li>
-          <a href="#" class="logo">Лапка:store</a>
-        </li>
-        <li>
-          <a href="#shop-items">Каталог</a>
-        </li>
-        <li>
-          <a href="#contacts">Контакты</a>
-        </li>
-        <li>
-          <div class="site-search">
-            <input type="search" id="search-input">
-            <button type="button" id="search-btn" class="fa fa-search"></i>
+    <header>
+        <nav>
+            <ul class="container nav">
+                <li>
+                    <a href="#" class="logo">Лапка:store</a>
+                </li>
+                <li>
+                    <a href="#shop-items">Каталог</a>
+                </li>
+                <li>
+                    <a href="#contacts">Контакты</a>
+                </li>
+                <li>
+                    <div class="site-search">
+                        <input type="search" id="search-input">
+                        <button type="button" id="search-btn" class="fa fa-search"></i>
           </div>
         </li>
       </ul>
     </nav>
   </header>
   <main class="container">
+    <div class="filters">
+      <div class="filters-sort">
+        <label for="sort">Сортировка:</label>
+        <select name="sort" id="sort">
+          <option selected value="alphabet">По алфавиту</option>
+          <option value="expensive">Сначала дорогие</option>
+          <option value="cheap">Сначала дешевые</option>
+          <option value="rating">Рейтинг</option>
+        </select>
+      </div>
+    </div>
     <section id="shop-items">
     </section>
-    <p id="nothing-found"></p>
+    <p id="nothing-found">Ничего не найдено</p>
   </main>
   <footer id="contacts" class="container">
     <a href="#" class="logo">Лапка:store</a>
@@ -47,8 +60,12 @@
         <div class="tags"></div>
         <h1></h1>
         <p></p>
-        <span class="price"></span>
       </div>
+      <div class="footer">
+        <span class="price"></span>
+        <div class="rating"></div>
+      </div>
+    </div>
     </div>
   </template>
   <script src="script.js"></script>

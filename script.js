@@ -4,6 +4,7 @@ const items = [{
         tags: ["cat", "dog"],
         price: 500,
         img: "./img/1.jpeg",
+        rating: 4.4,
     },
     {
         title: "Игрушка лабиринт",
@@ -11,6 +12,7 @@ const items = [{
         tags: ["cat", "dog"],
         price: 900,
         img: "./img/2.jpeg",
+        rating: 3.1,
     },
     {
         title: "Игрушка для котят",
@@ -18,6 +20,7 @@ const items = [{
         tags: ["cat"],
         price: 300,
         img: "./img/3.jpeg",
+        rating: 5.0,
     },
     {
         title: "Миска «Котик»",
@@ -25,6 +28,7 @@ const items = [{
         tags: ["cat", "dog"],
         price: 660,
         img: "./img/4.jpeg",
+        rating: 4.7,
     },
     {
         title: "Лоток розовый",
@@ -32,6 +36,7 @@ const items = [{
         tags: ["cat"],
         price: 400,
         img: "./img/5.jpeg",
+        rating: 4.9,
     },
     {
         title: "Сухой корм для кошек",
@@ -39,6 +44,7 @@ const items = [{
         tags: ["cat"],
         price: 200,
         img: "./img/6.jpeg",
+        rating: 3.2,
     },
     {
         title: "Сухой корм для собак",
@@ -46,6 +52,7 @@ const items = [{
         tags: ["dog"],
         price: 300,
         img: "./img/7.jpeg",
+        rating: 2.9,
     },
     {
         title: "Игрушка для собак",
@@ -53,6 +60,7 @@ const items = [{
         tags: ["dog"],
         price: 500,
         img: "./img/8.jpeg",
+        rating: 3.4,
     },
     {
         title: "Лежанка",
@@ -60,6 +68,7 @@ const items = [{
         tags: ["cat", "dog"],
         price: 1500,
         img: "./img/9.jpeg",
+        rating: 4.8,
     },
     {
         title: "Поилка для собак",
@@ -67,6 +76,7 @@ const items = [{
         tags: ["dog"],
         price: 800,
         img: "./img/10.jpeg",
+        rating: 3.2,
     },
     {
         title: "Переноска",
@@ -74,6 +84,7 @@ const items = [{
         tags: ["cat", "dog"],
         price: 3500,
         img: "./img/11.jpeg",
+        rating: 3.7,
     },
     {
         title: "Поводок для собак",
@@ -81,42 +92,134 @@ const items = [{
         tags: ["dog"],
         price: 800,
         img: "./img/12.jpeg",
+        rating: 4.1,
     },
 ];
 
-const itemTemplate = document.querySelector("#item-template");
-const shopItems = document.querySelector("#shop-items");
+const itemTemplate = document.querySelector("#item-template"); // шаблон карточки товара
+const shopItems = document.querySelector("#shop-items"); // контейнер для карточек товаров
+const nothingFound = document.querySelector("#nothing-found"); // текст, если поиск не дал результатов
 
-//функция создания шаблона-карточки
-function makeItemByTemplate(item) {
+//ФУНКЦИЯ создания карточки конкретного товара
+function makeProductByTemplate(item) {
 
-    const cardProductTemplate = itemTemplate.content.cloneNode(true); // клон шаблона карточки
-    const tags = cardProductTemplate.querySelector(".tags"); // поиск в template не возможен, он невидим. В его клоне искать.
+    const cardProductTemplate = itemTemplate.content.cloneNode(true); // клон шаблона карточки товара
+    const tagsHolder = cardProductTemplate.querySelector(".tags"); // "плашка" для тега, поиск в template не возможен, он невидим. В его клоне искать.
+    const ratingContainer = cardProductTemplate.querySelector(".rating"); //контейнер для рейтинга
 
-    cardProductTemplate.querySelector("h1").textContent = item.title; //поиск и запись в контент клона шаблона карточки
+    // разбор объекта (товара) на переменные - деструктуризация свойств объекта
+    const { title, description, tags, price, img, rating } = item;
+
+    // наполнение информацией из объекта
+    cardProductTemplate.querySelector("h1").textContent = item.title; //поиск и запись в контент карточки
     cardProductTemplate.querySelector("p").textContent = item.description;
     cardProductTemplate.querySelector("img").src = item.img;
-    cardProductTemplate.querySelector("span").textContent = item.price;
+    cardProductTemplate.querySelector("span").textContent = `${item.price}Р`;
 
-    //перебор свойства - массива tags  в каждом объекте и создание желтой плашки для каждого наименования тега
+    //создание рейтинга товара
+    for (let i = 0; i < rating; i++) { // для создания звездочек
+        const starRating = document.createElement("i");
+        starRating.classList.add("fa", "fa-star");
+        ratingContainer.append(starRating);
+    }
+
+    //перебор свойства - массива tags  в объекте и создание желтой плашки для каждого наименования тега
     item.tags.forEach((tag) => {
         const divForTag = document.createElement("div");
         divForTag.classList.add("tag");
         divForTag.textContent = tag;
-        tags.append(divForTag); //добавление плашки, по условию задачи, в div class="tags"
+        tagsHolder.append(divForTag); //добавление плашки, по условию задачи, в div class="tags"
     });
 
-    return cardProductTemplate;
+    return cardProductTemplate; //возврат карточки созданного товара
 };
 
-//Функция отрисовки карточки
-function renderItems(arr) {
+//ФУНКЦИЯ-ПОМОЩНИК для сортировки товаров по алфавиту
+function sortByAlphabet(a, b) {
+    // сравнение со свойством title
+    // если title первого товара алфавитно больше второго...
+    if (a.title > b.title) {
+        return 1;
+    }
+    // если title второго товара больше
+    if (a.title < b.title) {
+        return -1;
+    }
+    // если они равны
+    return 0;
+}
+
+//ФУНКЦИЯ отрисовки карточек 
+function renderItems(arr) { //параметр вставки - массив, карточки товаров которого нужно отрисовывать
+
+    //сброс текста "Ничего не найдено" после предыдущего поиска
+    nothingFound.textContent = "";
+
+    // очистка контейнера с товарами в случае, если там что-то было
+    shopItems.innerHTML = "";
 
     arr.forEach((item) => {
-
-        const newItemTemplate = makeItemByTemplate(item);
-        shopItems.append(newItemTemplate);
+        //вызов функции makeProductByTemplate для создания карточки каждого товара и помещение их в контейнер для карточек товаров
+        shopItems.append(makeProductByTemplate(item));
     });
+
+    if (!arr.length) { //если массив товаров пустой
+        nothingFound.textContent = "Ничего не найдено"; //отображение данного текста
+    }
 };
 
-renderItems(items);
+renderItems(items.sort((a, b) => sortByAlphabet(a, b))); //вызов функции для отрисовки карточек и сразу сортировкой по алфавиту "по умолчанию"
+
+//РЕАЛИЗАЦИЯ ПОИСКА НА САЙТЕ
+let resultSearch = [...items]; // товары после применения поиска / фильтров
+const searchBtn = document.querySelector("#search-btn"); //кнопка поиска
+const searchInput = document.querySelector("#search-input"); //поле для поиска
+
+//ФУНКЦИЯ поиска по товарам (она же сбрасывает фильтры)
+function searchShopItem() {
+
+    const search = searchInput.value.toLowerCase().trim(); // введенное слово в строку поиска с убранными пробелами и приведенное к нижнему регистру
+    resultSearch = items.filter((elem) => // отфильтрованный массив по задананным параметрам или поиску
+
+        elem.title.toLowerCase().includes(search) // содержится ли в title введенное слово в строку поиска 
+    );
+    resultSearch.sort((a, b) => sortByAlphabet(a, b)); //сортировка этих товаров по алфавиту (по умолчанию)
+
+    renderItems(resultSearch); // отрисовка результатов поиска
+
+    sortSelection.selectedIndex = 0; //чтобы в селекторе первым полем тоже стояло "по алфавиту" (как сделана сортировка "по умолчанию")
+}
+
+searchBtn.addEventListener("click", searchShopItem); // обработчик события запуска поиска при клике на кнопку
+searchInput.addEventListener("search", searchShopItem); //"search" - событие возникает после того, как пользователь нажимает на клавишу Enter или нажимает кнопку "x" (отмена) в элементе input с type = "search".
+
+//СОРТИРОВКА ТОВАРОВ
+const sortSelection = document.querySelector("#sort"); //селект-переключатель с выбором опции сортировки
+sortSelection.addEventListener("change", (event) => { // обработчик события выбора опции из селекта
+
+    const selectedOption = event.target.value; //атрибут value, что выбрал пользователь
+    //в зависимости от вида сортировки упорядочивание массива товаров
+    switch (selectedOption) {
+        case "expensive": //сначала дорогие
+            {
+                resultSearch.sort((a, b) => b.price - a.price);
+                break;
+            }
+        case "cheap": //сначала дешевые
+            {
+                resultSearch.sort((a, b) => a.price - b.price);
+                break;
+            }
+        case "rating": //от более высокого рейтинга к более низкому
+            {
+                resultSearch.sort((a, b) => b.rating - a.rating);
+                break;
+            }
+        case "alphabet": //по алфавиту
+            {
+                resultSearch.sort((a, b) => sortByAlphabet(a, b));
+                break;
+            }
+    }
+    renderItems(resultSearch); //отрисовка массива после упорядочивания
+});
