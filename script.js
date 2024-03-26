@@ -123,6 +123,13 @@ function makeProductByTemplate(item) {
         ratingContainer.append(starRating);
     }
 
+    //кнопка Купить
+    const footer = cardProductTemplate.querySelector(".footer"); // контейнер для рейтинга и цены
+    const btnBuy = document.createElement("button");
+    btnBuy.classList.add("btn");
+    btnBuy.textContent = "Купить";
+    footer.after(btnBuy);
+
     //перебор свойства - массива tags  в объекте и создание желтой плашки для каждого наименования тега
     item.tags.forEach((tag) => {
         const divForTag = document.createElement("div");
@@ -174,6 +181,7 @@ renderItems(items.sort((a, b) => sortByAlphabet(a, b))); //вызов функц
 let resultSearch = [...items]; // товары после применения поиска / фильтров
 const searchBtn = document.querySelector("#search-btn"); //кнопка поиска
 const searchInput = document.querySelector("#search-input"); //поле для поиска
+
 
 //ФУНКЦИЯ поиска по товарам (она же сбрасывает фильтры)
 function searchShopItem() {
