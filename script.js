@@ -249,20 +249,20 @@ function convertSearch(strSearch) {
 
 // ФУНКЦИЯ поиска по товарам (она же сбрасывает фильтры)
 function searchShopItem() {
-    const search = searchInput.value.toLowerCase().trim(); // введенное слово в строку поиска с убранными пробелами и приведенное к нижнему регистру
+    let search = searchInput.value.toLowerCase().trim(); // введенное слово в строку поиска с убранными пробелами и приведенное к нижнему регистру
 
     if (/[a-zA-Z]/.test(search)) { //проверка на содержание латинских символов
         searchInput.value = convertSearch(search); // замена латинских символов на русские
-
-    } else {
-        resultSearch = items.filter((elem) => // отфильтрованный массив по задананным параметрам или поиску
-            elem.title.toLowerCase().includes(search) // содержится ли в title введенное слово в строку поиска 
-        );
-
-        resultSearch.sort((a, b) => sortByAlphabet(a, b)); // сортировка этих товаров по алфавиту (по умолчанию)
-        sortSelection.selectedIndex = 0; // чтобы в селекторе первым полем тоже стояло "по алфавиту" (как сделана сортировка "по умолчанию")
-        renderItems(resultSearch); // отрисовка результатов поиска
+        search = convertSearch(search);
     }
+
+    resultSearch = items.filter((elem) => // отфильтрованный массив по задананным параметрам или поиску
+        elem.title.toLowerCase().includes(search) // содержится ли в title введенное слово в строку поиска 
+    );
+
+    resultSearch.sort((a, b) => sortByAlphabet(a, b)); // сортировка этих товаров по алфавиту (по умолчанию)
+    sortSelection.selectedIndex = 0; // чтобы в селекторе первым полем тоже стояло "по алфавиту" (как сделана сортировка "по умолчанию")
+    renderItems(resultSearch); // отрисовка результатов поиска
 }
 
 searchBtn.addEventListener("click", searchShopItem); // обработчик события запуска поиска при клике на кнопку
