@@ -39,7 +39,7 @@
 
   Например, следующий код очистит контейнер от его содержимого:
   ```html
-  container.innerHTML = '';
+  container.innerHTML = "";
   ```
   (здесь container — элемент с `id="shop-items"`)
 
